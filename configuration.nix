@@ -28,14 +28,14 @@
       isNormalUser = true;
       home = "/home/git";
       description = "Git";
-#      extraGroups = [ "docker" ]; 
-#    openssh.authorizedKeys.keyFiles = [
-#        /home/git/.ssh/authorized_keys
-#      ];
+      extraGroups = [ "docker" ]; 
+    openssh.authorizedKeys.keyFiles = [
+        /home/git/.ssh/authorized_keys
+      ];
     };
-#    root.openssh.authorizedKeys.keyFiles = [
-#      /root/.ssh/authorized_keys
-#    ];
+    root.openssh.authorizedKeys.keyFiles = [
+      /root/.ssh/authorized_keys
+    ];
   };
 
   # Personalization
@@ -75,24 +75,25 @@
   ];
 
   environment.sessionVariables = {
-  DOTNET_ROOT = "${pkgs.dotnet-sdk_7}";
+    DOTNET_ROOT = "${pkgs.dotnet-sdk_7}";
   };
-
   services.cron = {
     enable = true;
+    systemCronJobs = [
+      "*@reboot /etc/nixos/push_script.sh"
+    ];
   };
-
   programs.git = {
     enable = true;
   };
 
-#  virtualisation.docker = {
-#    enable = true;
-#    rootless = {
-#      enable = true;
-#      setSocketVariable = true;
-#    };
-#  };
+  virtualisation.docker = {
+    enable = true;
+    rootless = {
+      enable = true;
+      setSocketVariable = true;
+    };
+  };
 
   programs.java.enable = true;
 
@@ -116,7 +117,7 @@
   };
 
   networking.firewall.enable = true;
-  networking.firewall.allowedTCPPorts = [ 80 443 22 8080 8000 ];
+  networking.firewall.allowedTCPPorts = [ 80 443 22 8001];
   # networking.firewall.allowedUDPPorts = [ ... ];
 
   services.openssh = {
